@@ -101,9 +101,6 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 
 - The code was written in Windows operating system. Few functionalities can cause issue in other operating systems, like to clear terminal screen in Linux, replace `system("cls")` has to be changed to `system("clear")`.
 
-## Author
-- Ayush Jha
-- IIT Kanpur
-- 230258
+
 
 
