@@ -1,91 +1,85 @@
 #include "Model.hpp"
 #include <iostream>
-#include <ctime>
-#include <sstream>
+#include <unordered_map>
 
 using namespace std ;
 
+// ─── CarDBM ───────────────────────────────────────────────────────────────────
+
 CarDBM::CarDBM() {
     vector<string> data = readFromFile("./DB/car.csv", 7) ;
-    vector<Car*> cars = {} ;
     if( data.size() == 1 ) return ;
     for(int i = 0 ; i < data.size() ; i+=7){
-        Car* car = new Car(data[i], data[i+1], stoi(data[i+2]) ) ;
+        Car* car = new Car(data[i], data[i+1], stoi(data[i+2])) ;
         car -> setRent(stof(data[i+3])) ;
         car -> setRentDate(data[i+4]) ;
         car -> setDueDate(data[i+5]) ;
         car -> setUser(data[i+6]) ;
-        cars.push_back(car) ;
+        cars[data[i]] = car ;  // key = car_id
     }
-    this -> cars = cars ;
 }
 
 CarDBM::~CarDBM() {
-    vector<string> data = {} ;
-    for(int i = 0 ; i < cars.size() ; i++ ) {
-        data.push_back(cars[i] -> getCarId()) ;
-        data.push_back(cars[i] -> getModel()) ;
-        data.push_back(to_string(cars[i] -> getCondition())) ;
-        data.push_back(to_string(cars[i] -> getRent())) ;
-        data.push_back(cars[i] -> showRentDate()) ;
-        data.push_back(cars[i] -> showDueDate()) ;
-        data.push_back(cars[i] -> getUser()) ;
+    vector<string> data ;
+    for(auto& pair : cars) {
+        Car* c = pair.second ;
+        data.push_back(c -> getCarId()) ;
+        data.push_back(c -> getModel()) ;
+        data.push_back(to_string(c -> getCondition())) ;
+        data.push_back(to_string(c -> getRent())) ;
+        data.push_back(c -> showRentDate()) ;
+        data.push_back(c -> showDueDate()) ;
+        data.push_back(c -> getUser()) ;
     }
     writeToFile("./DB/car.csv", data, 7) ;
 }
 
 void CarDBM::UpdateCar(Car* car) {
-    for (int i = 0 ; i < cars.size() ; i++ ) {
-        if( cars[i] -> getCarId() == car -> getCarId() ) {
-            cars[i] = car ;
-            return ;
-        }
-    }
+    cars[car -> getCarId()] = car ;  // O(1) update
 }
 
 Car* CarDBM::SelectCar(string carid) {
-    for(int i = 0 ; i < cars.size() ; i++ ) {
-        if( cars[i] -> getCarId() == carid ) {
-            return cars[i] ;
-        }
-    }
+    if(cars.count(carid))
+        return cars[carid] ;  // O(1) lookup
     return NULL ;
 }
 
 vector<Car*> CarDBM::ListCars() {
-    return cars ;
+    vector<Car*> list ;
+    for(auto& pair : cars)
+        list.push_back(pair.second) ;
+    return list ;
 }
 
 void CarDBM::AddCar(Car* car) {
-    Car* temp = SelectCar(car -> getCarId()) ;
-    if( temp != NULL ) {
+    if(cars.count(car -> getCarId())) {
         cout << "CarID already exists!" << endl ;
         return ;
     }
-    cars.push_back(car) ;
+    cars[car -> getCarId()] = car ;  // O(1) insert
     cout << "Car added successfully!" << endl ;
 }
 
 void CarDBM::DeleteCar(string carid) {
-    for (int i = 0 ; i < cars.size() ; i++ ) {
-        if( cars[i] -> getCarId() == carid ) {
-            cars.erase(cars.begin() + i) ;
-            cout << "Car deleted successfully!" << endl ;
-            return ;
-        }
+    if(cars.count(carid)) {
+        cars.erase(carid) ;  // O(1) delete
+        cout << "Car deleted successfully!" << endl ;
+        return ;
     }
     cout << "CarID does not exist!" << endl ;
 }
 
 void CarDBM::DeleteCarsUserID(string userid) {
-    for (int i = 0 ; i < cars.size() ; i++ ) {
-        if( cars[i] -> getUser() == userid ) {
-            cars[i] -> setUser("") ;
-            cars[i] -> setRentDate("") ;
-            cars[i] -> setDueDate("") ;
+    for(auto& pair : cars) {
+        if(pair.second -> getUser() == userid) {
+            pair.second -> setUser("") ;
+            pair.second -> setRentDate("") ;
+            pair.second -> setDueDate("") ;
         }
     }
 }
+
+// ─── CustomerDBM ──────────────────────────────────────────────────────────────
 
 CustomerDBM::CustomerDBM() {
     vector<string> data = readFromFile("./DB/customer.csv", 6) ;
@@ -93,195 +87,173 @@ CustomerDBM::CustomerDBM() {
     for(int i = 0 ; i < data.size() ; i+=6){
         Customer* customer = new Customer(data[i], data[i+1], data[i+2], stof(data[i+3]), stod(data[i+4])) ;
         customer -> setNumberOfCarsRented(stoi(data[i+5])) ;
-        customers.push_back(customer) ;
+        customers[data[i]] = customer ;  // key = userid
     }
-    this -> customers = customers ;
 }
 
 CustomerDBM::~CustomerDBM() {
     vector<string> data ;
-    for( int i = 0 ; i < customers.size() ; i++ ) {
-        data.push_back(customers[i] -> getUserId()) ;
-        data.push_back(customers[i] -> getPassword()) ;
-        data.push_back(customers[i] -> getName()) ;
-        data.push_back(to_string(customers[i] -> getCustomerRecord())) ;
-        data.push_back(to_string(customers[i] -> getDues())) ;
-        data.push_back(to_string(customers[i] -> getNumberOfCarsRented())) ;
+    for(auto& pair : customers) {
+        Customer* c = pair.second ;
+        data.push_back(c -> getUserId()) ;
+        data.push_back(c -> getPassword()) ;
+        data.push_back(c -> getName()) ;
+        data.push_back(to_string(c -> getCustomerRecord())) ;
+        data.push_back(to_string(c -> getDues())) ;
+        data.push_back(to_string(c -> getNumberOfCarsRented())) ;
     }
     writeToFile("./DB/customer.csv", data, 6) ;
 }
 
 void CustomerDBM::UpdateCustomer(Customer* customer) {
-    for(int i = 0 ; i < customers.size() ; i++ ){
-        if( customers[i] -> getUserId() == customer -> getUserId() ) {
-            customers[i] = customer ;
-            return ;
-        }
-    }
+    customers[customer -> getUserId()] = customer ;  // O(1) update
 }
 
 Customer* CustomerDBM::SelectCustomer(string userid) {
-    for(int i = 0 ; i < customers.size() ; i++ ){
-        if( customers[i] -> getUserId() == userid ) {
-            return customers[i] ;
-        }
-    }
+    if(customers.count(userid))
+        return customers[userid] ;  // O(1) lookup
     return NULL ;
 }
 
 vector<Customer*> CustomerDBM::ListCustomers() {
-    return customers ;
+    vector<Customer*> list ;
+    for(auto& pair : customers)
+        list.push_back(pair.second) ;
+    return list ;
 }
 
 void CustomerDBM::AddCustomer(Customer* customer) {
-    Customer* check = SelectCustomer(customer->getUserId()) ;
-    if( check != NULL ) {
+    if(customers.count(customer -> getUserId())) {
         cout << "UserID already exists!" << endl ;
         return ;
     }
-    customers.push_back(customer) ;
+    customers[customer -> getUserId()] = customer ;  // O(1) insert
     cout << "Customer added successfully!" << endl ;
 }
 
 void CustomerDBM::DeleteCustomer(string userid) {
-    for(int i = 0 ; i < customers.size() ; i++ ){
-        if( customers[i] -> getUserId() == userid ) {
-            customers.erase(customers.begin() + i) ;
-            cout << "Customer deleted successfully!" << endl ;
-            return ;
-        }
+    if(customers.count(userid)) {
+        customers.erase(userid) ;  // O(1) delete
+        cout << "Customer deleted successfully!" << endl ;
+        return ;
     }
     cout << "UserID does not exist!" << endl ;
 }
 
+// ─── EmployeeDBM ──────────────────────────────────────────────────────────────
+
 EmployeeDBM::EmployeeDBM() {
     vector<string> data = readFromFile("./DB/employee.csv", 6) ;
-    vector<Employee*> employees ;
-    if ( data.size() == 1 ) return ;
+    if( data.size() == 1 ) return ;
     for(int i = 0 ; i < data.size() ; i+=6){
         Employee* employee = new Employee(data[i], data[i+1], data[i+2], stof(data[i+3]), stod(data[i+4])) ;
         employee -> setNumberOfCarsRented(stoi(data[i+5])) ;
-        employees.push_back(employee) ;
+        employees[data[i]] = employee ;  // key = userid
     }
-    this -> employees = employees ;
 }
 
 EmployeeDBM::~EmployeeDBM() {
     vector<string> data ;
-    for( int i = 0 ; i < employees.size() ; i++ ) {
-        data.push_back(employees[i] -> getUserId()) ;
-        data.push_back(employees[i] -> getPassword()) ;
-        data.push_back(employees[i] -> getName()) ;
-        data.push_back(to_string(employees[i] -> getEmployeeRecord())) ;
-        data.push_back(to_string(employees[i] -> getDues())) ;
-        data.push_back(to_string(employees[i] -> getNumberOfCarsRented())) ;
+    for(auto& pair : employees) {
+        Employee* e = pair.second ;
+        data.push_back(e -> getUserId()) ;
+        data.push_back(e -> getPassword()) ;
+        data.push_back(e -> getName()) ;
+        data.push_back(to_string(e -> getEmployeeRecord())) ;
+        data.push_back(to_string(e -> getDues())) ;
+        data.push_back(to_string(e -> getNumberOfCarsRented())) ;
     }
     writeToFile("./DB/employee.csv", data, 6) ;
 }
 
-void EmployeeDBM::UpdateEmployee(Employee* employee){
-    for( int i = 0 ; i < employees.size() ; i++ ) {
-        if( employees[i] -> getUserId() == employee -> getUserId() ) {
-            employees[i] = employee ;
-            return ;
-        }
-    }
+void EmployeeDBM::UpdateEmployee(Employee* employee) {
+    employees[employee -> getUserId()] = employee ;  // O(1) update
 }
 
 Employee* EmployeeDBM::SelectEmployee(string userid) {
-    for(int i = 0 ; i < employees.size() ; i+=6){
-        if( employees[i] -> getUserId() == userid ) {
-            return employees[i] ;
-        }
-    }
+    if(employees.count(userid))
+        return employees[userid] ;  // O(1) lookup
     return NULL ;
 }
 
 vector<Employee*> EmployeeDBM::ListEmployees() {
-    return employees ;
+    vector<Employee*> list ;
+    for(auto& pair : employees)
+        list.push_back(pair.second) ;
+    return list ;
 }
 
 void EmployeeDBM::AddEmployee(Employee* employee) {
-    Employee* check = SelectEmployee(employee->getUserId()) ;
-    if( check != NULL ) {
+    if(employees.count(employee -> getUserId())) {
         cout << "UserID already exists!" << endl ;
         return ;
     }
-    employees.push_back(employee) ;
+    employees[employee -> getUserId()] = employee ;  // O(1) insert
     cout << "Employee Added!" << endl ;
 }
 
 void EmployeeDBM::DeleteEmployee(string userid) {
-    for( int i = 0 ; i < employees.size() ; i++ ) {
-        if( employees[i] -> getUserId() == userid ) {
-            employees.erase(employees.begin() + i) ;
-            cout << "Employee Deleted!" << endl ;
-            return ;
-        }
+    if(employees.count(userid)) {
+        employees.erase(userid) ;  // O(1) delete
+        cout << "Employee Deleted!" << endl ;
+        return ;
     }
     cout << "Employee not found!" << endl ;
 }
 
+// ─── ManagerDBM ───────────────────────────────────────────────────────────────
+
 ManagerDBM::ManagerDBM() {
     vector<string> data = readFromFile("./DB/manager.csv", 3) ;
-    vector<Manager*> managers = {} ;
     if( data.size() == 1 ) return ;
     for(int i = 0 ; i < data.size() ; i+=3){
         Manager* manager = new Manager(data[i], data[i+1], data[i+2]) ;
-        managers.push_back(manager) ;
+        managers[data[i]] = manager ;  // key = userid
     }
-    this -> managers = managers ;
 }
 
 ManagerDBM::~ManagerDBM() {
-    vector<string> data = {} ;
-    for(int i = 0 ; i < managers.size() ; i++ ) {
-        data.push_back(managers[i] -> getUserId()) ;
-        data.push_back(managers[i] -> getPassword()) ;
-        data.push_back(managers[i] -> getName()) ;
+    vector<string> data ;
+    for(auto& pair : managers) {
+        Manager* m = pair.second ;
+        data.push_back(m -> getUserId()) ;
+        data.push_back(m -> getPassword()) ;
+        data.push_back(m -> getName()) ;
     }
     writeToFile("./DB/manager.csv", data, 3) ;
 }
 
 void ManagerDBM::UpdateManager(Manager* manager) {
-    for (int i = 0 ; i < managers.size() ; i++ ) {
-        if( managers[i] -> getUserId() == manager -> getUserId() ) {
-            managers[i] = manager ;
-            return ;
-        }
-    }
+    managers[manager -> getUserId()] = manager ;  // O(1) update
 }
 
 Manager* ManagerDBM::SelectManager(string userid) {
-    for(int i = 0 ; i < managers.size() ; i++ ) {
-        if( managers[i] -> getUserId() == userid ) {
-            return managers[i] ;
-        }
-    }
+    if(managers.count(userid))
+        return managers[userid] ;  // O(1) lookup
     return NULL ;
 }
 
 vector<Manager*> ManagerDBM::ListManagers() {
-    return managers ;
+    vector<Manager*> list ;
+    for(auto& pair : managers)
+        list.push_back(pair.second) ;
+    return list ;
 }
 
 void ManagerDBM::AddManager(Manager* manager) {
-    Manager* temp = SelectManager(manager -> getUserId()) ;
-    if( temp != NULL ) {
+    if(managers.count(manager -> getUserId())) {
         cout << "UserID already exists!" << endl ;
         return ;
     }
-    managers.push_back(manager) ;
+    managers[manager -> getUserId()] = manager ;  // O(1) insert
     cout << "Manager Added!" << endl ;
 }
 
 void ManagerDBM::DeleteManager(string userid) {
-    for(int i = 0 ; i < managers.size() ; i++ ) {
-        if( managers[i] -> getUserId() == userid ) {
-            managers.erase(managers.begin() + i) ;
-            cout << "Manager Deleted!" << endl ;
-            return ;
-        }
+    if(managers.count(userid)) {
+        managers.erase(userid) ;  // O(1) delete
+        cout << "Manager Deleted!" << endl ;
+        return ;
     }
     cout << "UserID does not exist!" << endl ;
 }

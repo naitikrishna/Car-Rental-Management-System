@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <unordered_map>
 
 class User {
 	protected:
@@ -117,9 +118,9 @@ class Manager : public User {
 		void UpdateCar() ;
 } ;
 
-class CustomerDBM{
+class CustomerDBM {
     private:
-        std::vector<Customer*> customers ;
+        std::unordered_map<std::string, Customer*> customers ;  // key = userid
     public:
 		CustomerDBM() ;
 		void AddCustomer(Customer* customer) ;
@@ -130,9 +131,9 @@ class CustomerDBM{
 		~CustomerDBM() ;
 } ;
 
-class CarDBM{
+class CarDBM {
     private:
-        std::vector<Car*> cars ;
+        std::unordered_map<std::string, Car*> cars ;  // key = car_id
     public:
 		CarDBM() ;
         void AddCar(Car* car) ;
@@ -144,9 +145,9 @@ class CarDBM{
 		~CarDBM() ;
 } ;
 
-class ManagerDBM{
+class ManagerDBM {
     private:
-        std::vector<Manager*> managers ;
+        std::unordered_map<std::string, Manager*> managers ;  // key = userid
     public:
 		ManagerDBM() ;
 		void AddManager(Manager* Manager) ;
@@ -157,9 +158,9 @@ class ManagerDBM{
 		~ManagerDBM() ;
 } ;
 
-class EmployeeDBM{
+class EmployeeDBM {
 	private:
-		std::vector<Employee*> employees ;
+		std::unordered_map<std::string, Employee*> employees ;  // key = userid
 	public:
 		EmployeeDBM() ;
 		void AddEmployee(Employee* employee) ;
