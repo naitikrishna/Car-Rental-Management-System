@@ -62,11 +62,11 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 ### Employees
 | UserID  | Password | Name  | Employee Record |  Dues  | Number of Cars Rented in Rs. |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
-| employee1 | password1  | Ben | 65 | 1300 | 1 |
-| employee2 | password2  | Tom | 95 | 1800 | 0 |
-| employee3 | password3  | Hog | 40 | 2200 | 0 |
-| employee4 | password4  | Adi | 65 | 2600 | 1 |
-| employee5 | password5  | Jen | 70 | 9800 | 0 |
+| emp1 | password1  | Ben | 65 | 1300 | 1 |
+| emp2 | password2  | Tom | 95 | 1800 | 0 |
+| emp3 | password3  | Hog | 40 | 2200 | 0 |
+| emp4 | password4  | Adi | 65 | 2600 | 1 |
+| emp5 | password5  | Jen | 70 | 9800 | 0 |
 
 ### Manager
 | UserID  | Password | Name  |
@@ -76,12 +76,12 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 ### Cars
 | CarID  | Model | Condition  | Rent per Day in Rs. |  Rent Date  | Due Date | UserID of who rented |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-----------: | :-----------: |
-| UP1818 | Tata | 8 | 2000 | 27-02-2024 | 04-03-2024 | user2 |
-| UK1812 | Mahindra | 9 | 2500 |  |  |  |
-| MH3632 | Toyota | 6 | 2200 | 28-02-2024 | 07-03-2024 | user5 |
-| DL9891 | Hyundai | 7 | 2000 | 24-02-2024 | 01-03-2024 | user5 |
-| GJ5172 | Maruti | 5 | 1800 | 15-02-2024 | 03-03-2024 | employee1 |
-| UP8728 | Skoda | 8 | 3000 | 23-02-2024 | 08-03-2024 | employee4 |
+| C001 | Tata | 8 | 2000 | 27-02-2024 | 04-03-2024 | user2 |
+| C002 | Mahindra | 9 | 2500 |  |  |  |
+| C003 | Toyota | 6 | 1800 | 28-02-2024 | 07-03-2024 | user5 |
+| C004 | Hyundai | 8 | 2000 | 24-02-2024 | 01-03-2024 | user5 |
+| C005 | Maruti | 7 | 1800 | 15-02-2024 | 03-03-2024 | employee1 |
+| C006 | Skoda | 10 | 3000 | 23-02-2024 | 08-03-2024 | employee4 |
 
 **NOTE : In Cars database, If a car is not rented its attributes `Due Date`, `Rent Date` and `UserID of who rented` are left blank.**
 
