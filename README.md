@@ -77,7 +77,7 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 | CarID  | Model | Condition  | Rent per Day in Rs. |  Rent Date  | Due Date | UserID of who rented |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-----------: | :-----------: |
 | C001 | Tata | 8 | 2000 | 27-02-2024 | 04-03-2024 | user2 |
-| C002 | Mahindra | 9 | 2500 |  |  |  |
+| C002 | Mahindra | 9 | 2500 | 11-6-2026 | 26-6-2026 | user1 |
 | C003 | Toyota | 6 | 1800 | 28-02-2024 | 07-03-2024 | user5 |
 | C004 | Hyundai | 8 | 2000 | 24-02-2024 | 01-03-2024 | user5 |
 | C005 | Maruti | 7 | 1800 | 15-02-2024 | 03-03-2024 | employee1 |
