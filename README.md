@@ -56,7 +56,7 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 | user1 | password1  | Rohan | 70 | 1000 | 0 |
 | user2 | password2  | Rahul | 80 | 1250 | 1 |
 | user3 | password3  | Karan | 90 | 2000 | 0 |
-| user4 | password4  | Amogh | 85 | 3000 | 0 |
+| user4 | password4  | Naitik | 85 | 3000 | 0 |
 | user5 | password5  | Rajat | 95 | 1400 | 2 |
 
 ### Employees
