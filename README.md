@@ -71,7 +71,7 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 ### Manager
 | UserID  | Password | Name  |
 | :-------------: | :-------------: | :-------------: |
-| manager1 | password1  | Harry |
+| admin | admin123  | Admin |
 
 ### Cars
 | CarID  | Model | Condition  | Rent per Day in Rs. |  Rent Date  | Due Date | UserID of who rented |
