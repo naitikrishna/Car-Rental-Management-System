@@ -53,20 +53,20 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 ### Customers
 | UserID  | Password | Name  | Customer Record |  Dues  | Number of Cars Rented |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
-| user1 | password1  | Rohan | 70 | 1000 | 0 |
+| user1 | password1  | Rohan | 80 | 1000 | 1 |
 | user2 | password2  | Rahul | 80 | 1250 | 1 |
-| user3 | password3  | Karan | 90 | 2000 | 0 |
-| user4 | password4  | Naitik | 85 | 3000 | 0 |
-| user5 | password5  | Rajat | 95 | 1400 | 2 |
+| user3 | password3  | Karan | 80 | 2000 | 0 |
+| user4 | password4  | Naitik | 80 | 3000 | 0 |
+| user5 | password5  | Rajat | 80 | 1400 | 2 |
 
 ### Employees
 | UserID  | Password | Name  | Employee Record |  Dues  | Number of Cars Rented in Rs. |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
-| emp1 | password1  | Ben | 65 | 1300 | 1 |
-| emp2 | password2  | Tom | 95 | 1800 | 0 |
-| emp3 | password3  | Hog | 40 | 2200 | 0 |
-| emp4 | password4  | Adi | 65 | 2600 | 1 |
-| emp5 | password5  | Jen | 70 | 9800 | 0 |
+| emp1 | password1  | Ben | 80 | 1300 | 1 |
+| emp2 | password2  | Tom | 80 | 1800 | 0 |
+| emp3 | password3  | Hog | 80 | 2200 | 0 |
+| emp4 | password4  | Adi | 80 | 2600 | 1 |
+| emp5 | password5  | Jen | 80 | 9800 | 0 |
 
 ### Manager
 | UserID  | Password | Name  |
@@ -76,12 +76,12 @@ There are initially 5 Customers, 5 Employees, 6 Cars and 1 Manager. The details 
 ### Cars
 | CarID  | Model | Condition  | Rent per Day in Rs. |  Rent Date  | Due Date | UserID of who rented |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-----------: | :-----------: |
-| C001 | Tata | 8 | 2000 | 27-02-2024 | 04-03-2024 | user2 |
+| C001 | Tata | 8 | 2000 | 27-05-2026 | 04-06-2026 | user2 |
 | C002 | Mahindra | 9 | 2500 | 11-6-2026 | 26-6-2026 | user1 |
-| C003 | Toyota | 6 | 1800 | 28-02-2024 | 07-03-2024 | user5 |
-| C004 | Hyundai | 8 | 2000 | 24-02-2024 | 01-03-2024 | user5 |
-| C005 | Maruti | 7 | 1800 | 15-02-2024 | 03-03-2024 | employee1 |
-| C006 | Skoda | 10 | 3000 | 23-02-2024 | 08-03-2024 | employee4 |
+| C003 | Toyota | 6 | 1800 | 02-06-2026 | 07-06-2026 | user5 |
+| C004 | Hyundai | 8 | 2000 | 05-06-2026 | 10-06-2026 | user5 |
+| C005 | Maruti | 7 | 1800 | 15-05-2026 | 31-05-2026 | emp1 |
+| C006 | Skoda | 10 | 3000 | 23-05-2026 | 08-06-2026 | emp4 |
 
 **NOTE : In Cars database, If a car is not rented its attributes `Due Date`, `Rent Date` and `UserID of who rented` are left blank.**
 
